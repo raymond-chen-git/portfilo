@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>視覺設計師作品集 | 俞函's Portfolio</title>
+    <title>視覺設計師作品集 | Raymond's Portfolio</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
@@ -37,38 +37,41 @@
         .project-info h3 { font-size: 1.2rem; margin-bottom: 5px; }
         .project-info p { color: #888; font-size: 0.9rem; }
         
-        /* --- [升級] Wix 改版特效區塊 (3D 堆疊轉盤) --- */
-        .redesign-section { padding: 80px 5%; background: #fff; text-align: center; overflow: hidden; /* 隱私超出畫面以外的特效 */ }
+        /* --- [升級] Wix 改版特效區塊 --- */
+        .redesign-section { padding: 80px 5%; background: #fff; text-align: center; overflow: hidden; }
         .redesign-section h2 { font-size: 2rem; margin-bottom: 10px; }
         .redesign-section p { color: #666; margin-bottom: 50px; }
 
-        /* 3D 轉盤容器 (★ 核心特效 ★) */
-        .redesign-showcase-container { width: 100%; max-width: 900px; margin: 0 auto; }
+        /* 3D 轉盤容器 */
+        .redesign-showcase-container { width: 100%; max-width: 900px; margin: 0 auto; position: relative;}
 
         /* A4 方框設定 (★ 核心特效 ★) */
         .comparison-box { position: relative; width: 100%; max-width: 400px; border-radius: 12px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.15); user-select: none; -webkit-user-select: none; }
 
         /* 實作 A4 比例 (210:297) */
-        .a4-ratio-wrapper { position: relative; width: 100%; padding-bottom: 141.4%; height: 0; background: #f0f0f0; }
-        .comparison-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+        .a4-ratio-wrapper { position: relative; width: 100%; padding-bottom: 141.4%; height: 0; }
+        
+        /* [新增] 臨時色塊預覽樣式 */
+        .placeholder-block { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #9ca3af; font-weight: bold; font-size: 1.2rem; }
 
         /* 標籤設計 */
         .comparison-label { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: #fff; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; z-index: 10; }
         
-        /* ----- [新增] Swiper 轉盤專用樣式 ----- */
+        /* ----- Swiper 轉盤專用樣式 ----- */
         .swiper-redesign { width: 100%; padding-top: 30px; padding-bottom: 50px; }
-        .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; display: flex; justify-content: center; align-items: center; }
+        
+        /* [修正] 補上漏掉的灰色背景樣式，特效才會動 */
+        .swiper-slide { background-position: center; background-size: cover; width: auto; height: auto; display: flex; justify-content: center; align-items: center; background-color: transparent !important;}
 
         /* 預設非選中狀態 (縮小、變暗、灰色、模糊) */
         .comparison-box { transition: all 0.6s ease; filter: grayscale(100%) brightness(60%) blur(5px); transform: scale(0.9); }
 
-        /* ★ 中央選中狀態 ★ (恢復清晰、恢復原色、放大) */
+        /* 中央選中狀態 (恢復清晰、恢復原色、放大) */
         .swiper-slide-active .comparison-box { filter: grayscale(0%) brightness(100%) blur(0px); transform: scale(1.1); box-shadow: 0 15px 50px rgba(0,0,0,0.3); z-index: 20; }
         
         /* 導覽按鈕顏色 */
         .swiper-button-next, .swiper-button-prev { color: #000; transform: translateY(-50px); }
         .swiper-pagination-bullet-active { background: #000; }
-        /* ------------------------------------------- */
 
         /* 互動網頁專案區塊 */
         .interactive-section { padding: 80px 5%; background: #EFEFEF; text-align: center; }
@@ -95,7 +98,7 @@
 <body>
 
     <nav>
-        <div class="logo">俞函's Portfolio.</div>
+        <div class="logo">Raymond's Portfolio.</div>
         <ul class="nav-links">
             <li><a href="#work">平面作品</a></li>
             <li><a href="#wix-redesign">網頁改版</a></li>
@@ -105,7 +108,7 @@
     </nav>
 
     <header class="hero">
-        <h1>嗨，我是俞函 👋</h1>
+        <h1>嗨，我是 Raymond 👋</h1>
         <p>專注於品牌識別與視覺包裝設計，並能以 AI 輔助網頁開發的跨界設計師。</p>
         <a href="#wix-redesign" class="btn">體驗 3D 改版對比</a>
     </header>
@@ -121,8 +124,7 @@
                     <div class="swiper-slide">
                         <div class="comparison-box">
                             <div class="comparison-label">Before / 修改前</div>
-                            <div class="a4-ratio-wrapper">
-                                <img src="https://drive.google.com/uc?export=view&id=這裡貼上你整理好的Before圖的ID" alt="修改前舊網頁" class="comparison-img">
+                            <div class="a4-ratio-wrapper" style="background-color: #f3f4f6;"> <div class="placeholder-block">Before Block</div>
                             </div>
                         </div>
                     </div>
@@ -130,14 +132,12 @@
                     <div class="swiper-slide">
                         <div class="comparison-box">
                             <div class="comparison-label">After / 修改後</div>
-                            <div class="a4-ratio-wrapper">
-                                <img src="https://drive.google.com/uc?export=view&id=這裡貼上你整理好的After圖的ID" alt="修改後新網頁" class="comparison-img">
+                            <div class="a4-ratio-wrapper" style="background-color: #f9fafb;"> <div class="placeholder-block">After Block</div>
                             </div>
                         </div>
                     </div>
                     
                 </div>
-                
                 <div class="swiper-button-next"></div>
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-pagination"></div>
@@ -183,7 +183,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // 平面作品資料庫 (抓 Google Drive 圖片)
+        // 平面作品資料庫
         const projectsData = [
             { title: "旅用盥洗包說明設計", category: "排版與包裝設計", driveId: "1Tc-if0now_3eBUmt1Letbk0GoFnPX3fX" }
         ];
@@ -212,23 +212,22 @@
             evt.currentTarget.classList.add("active");
         }
 
-        // --- 5. [新增] 初始化 Swiper 3D 堆疊轉盤 ---
+        // 初始化 Swiper 3D 堆疊轉盤
         const swiper = new Swiper('.swiper-redesign', {
-            effect: 'coverflow', // 使用 Coverflow 特效 (實現弧形位移)
-            grabCursor: true,   // 滑鼠移上去變手指
-            centeredSlides: true, // 選中的卡片在正中間
-            slidesPerView: 'auto', // 依據 CSS 設定決定顯示張數
-            initialSlide: 1,    // 預設開啟第 2 張 (After，索引從 0 開始)
+            effect: 'coverflow', // 大弧形堆疊特效
+            grabCursor: true,   
+            centeredSlides: true, // 選中的在中央
+            slidesPerView: 'auto', 
+            initialSlide: 1,    // 預設第 2 張 (After)
             
             coverflowEffect: {
-                rotate: 25,     // 非選中卡片的旋轉角度 (大弧形)
-                stretch: 0,     // 卡片之間的拉伸距離 (0 代表不拉伸)
-                depth: 250,     // 非選中卡片的深度值 (實現放很大與遮住的感覺)
-                modifier: 1,    // 特效倍率
-                slideShadows: true, // 顯示非選中卡片的陰影 (增加 3D 感)
+                rotate: 30,     // 弧形旋轉角度
+                stretch: 0,     
+                depth: 300,     // 3D 深度感 (遮住的感覺)
+                modifier: 1,    
+                slideShadows: true, 
             },
             
-            // 導覽按鈕與圓點
             navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
             pagination: { el: '.swiper-pagination', clickable: true }
         });
