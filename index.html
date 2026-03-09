@@ -66,7 +66,7 @@
         .swiper-button-next, .swiper-button-prev { color: #333; }
         .swiper-redesign .swiper-pagination-bullet-active { background: #333; }
 
-        /* --- SNS 社群行銷區塊 (★ 背景改為亮色 ★) --- */
+        /* --- SNS 社群行銷區塊 (亮色背景) --- */
         .sns-section { 
             padding: 80px 5%; 
             background: #f9fafb; 
@@ -76,65 +76,59 @@
         .sns-section h2 { font-size: 2rem; margin-bottom: 10px; }
         .sns-section p { color: #666; margin-bottom: 40px; }
 
-        /* --- [新增/修改] 升級為髮絲紋金屬宇宙橘外觀 --- */
+        /* --- ★ 鈦金屬黑．超窄邊框 iPhone 17 Pro ★ --- */
         .phone-mockup {
             width: 300px;
             height: 600px;
-            
-            /* ★ [重點] 金屬髮絲紋核心 CSS (髮絲紋模擬漸層 + 宇宙橘主色) ★ */
-            background-color: #fff; /* 手機內部維持白色 */
-            border: 14px solid #111; /* 這個邊框會在後面被偽元素覆蓋成金屬材質 */
-            
-            border-radius: 46px; /* 更圓潤的機身 */
+            background-color: #fff; 
+            border: 8px solid #111; /* 退路底色，窄邊框 8px */
+            border-radius: 46px; 
             margin: 0 auto;
             position: relative;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
             overflow: hidden;
-            
-            /* ★ 利用伪元素實現金屬邊框與髮絲紋紋理 ★ */
             z-index: 1;
         }
 
-        /* 手機外部金屬拉絲邊框與宇宙橘色光澤 */
+        /* 外部金屬拉絲邊框 (鈦黑光澤) */
         .phone-mockup::after {
             content: '';
             position: absolute;
-            top: -14px; left: -14px; right: -14px; bottom: -14px; /* 覆蓋原本的邊框位置 */
+            top: -8px; left: -8px; right: -8px; bottom: -8px; /* 貼合 8px 邊框 */
             
-            /* ★ [重點] 多重線性漸層模擬金屬拉絲紋理與光影 ★ */
+            /* 鈦黑色金屬光影與細微拉絲紋理 */
             background-image: 
-                linear-gradient(90deg, #A25D1D 0%, #E67E22 10%, #FF9F43 30%, #E67E22 50%, #A25D1D 70%, #FF9F43 90%, #A25D1D 100%), /* 金屬光影漸層 */
-                repeating-linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 1px, transparent 1px, transparent 2px), /* ★ 超細微拉絲紋理 (微光雜訊) ★ */
-                repeating-linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 1px, transparent 1px, transparent 2px); /* 交叉紋理，增加細節 */
+                linear-gradient(90deg, #111 0%, #333 15%, #555 30%, #222 50%, #111 70%, #444 85%, #222 100%), 
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 2px), 
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 2px); 
             
-            background-blend-mode: overlay, normal; /* 讓光影與拉絲紋理融合 */
-            
+            background-blend-mode: overlay, normal; 
             border-radius: 46px;
-            z-index: -2; /* 放在手機內部白色的後面 */
+            z-index: -2; 
             pointer-events: none;
         }
 
-        /* ★ iPhone 17 Pro 特有的超細緻金屬切邊 ★ */
+        /* 螢幕內部高光切邊 (銀灰色反光) */
         .phone-mockup::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            border: 1.5px solid rgba(162, 93, 29, 0.6); /* 超細的深橘色切邊 */
-            border-radius: 32px; /* 內部圓角 */
-            z-index: 0; /* 放在白色手機內部的前面 */
+            border: 1px solid rgba(255, 255, 255, 0.15); /* 微微白光模擬玻璃與金屬交界 */
+            border-radius: 38px; /* 完美貼合內圓角 */
+            z-index: 0; 
             pointer-events: none;
         }
 
-        /* ★ [修改] 將原本的瀏海改為細緻的「動態島 (Dynamic Island)」 ★ */
+        /* 動態島 (Dynamic Island) */
         .dynamic-island {
             position: absolute;
-            top: 14px; 
+            top: 12px; 
             left: 50%;
             transform: translateX(-50%);
-            width: 80px; /* 更細緻的膠囊狀 */
-            height: 16px;
+            width: 85px; 
+            height: 20px;
             background: #000;
-            border-radius: 20px; /* 圓角膠囊 */
+            border-radius: 20px; 
             z-index: 10;
         }
 
@@ -251,9 +245,7 @@
         <div class="tabs">
             <button class="tab-btn active" onclick="openTab(event, 'accounting')">💰 家庭記帳程式</button>
             <button class="tab-btn" onclick="openTab(event, 'lottery')">🎄 聖誕抽獎活動</button>
-            
             <button class="tab-btn" onclick="openTab(event, 'line-menu')">📱 LINE@ 分頁選單</button>
-            
             <button class="tab-btn" onclick="openTab(event, 'aigc')">📖 AIGC 學習講義</button>
         </div>
         
@@ -263,11 +255,9 @@
         <div id="lottery" class="tab-content">
             <iframe src="https://raymond-chen-git.github.io/Xmas-slot-game/" title="聖誕抽獎活動"></iframe>
         </div>
-
         <div id="line-menu" class="tab-content">
             <iframe src="https://raymond-chen-git.github.io/line-menu-demo/" title="LINE@ 分頁選單模擬"></iframe>
         </div>
-
         <div id="aigc" class="tab-content">
             <iframe src="https://3li3long.github.io/ai-cert-study/" title="AIGC 學習講義"></iframe>
         </div>
@@ -287,7 +277,6 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // --- 1. 平面作品資料庫自動生成 (保留 Google Drive ID 寫法) ---
         const projectsData = [
             { title: "旅用盥洗包說明設計", category: "排版與包裝設計", driveId: "1Tc-if0now_3eBUmt1Letbk0GoFnPX3fX" }
         ];
@@ -305,7 +294,6 @@
                 </div>`;
         });
 
-        // --- 2. 網頁頁籤切換邏輯 (Web App 區塊) ---
         function openTab(evt, tabName) {
             let i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -316,48 +304,19 @@
             evt.currentTarget.classList.add("active");
         }
 
-        // --- 3. 初始化所有 Swiper 輪播特效 ---
         document.addEventListener('DOMContentLoaded', function () {
-            
-            // A. Wix 網頁改版 (3D 堆疊轉盤)
             const swiperWix = new Swiper('.swiper-redesign', {
-                effect: 'coverflow',
-                grabCursor: true,   
-                centeredSlides: true, 
-                slidesPerView: 'auto', 
-                initialSlide: 1, 
-                coverflowEffect: {
-                    rotate: 40,      
-                    stretch: 0,     
-                    depth: 300,      
-                    modifier: 1,    
-                    slideShadows: true, 
-                },
-                navigation: { 
-                    nextEl: '.swiper-button-next', 
-                    prevEl: '.swiper-button-prev' 
-                },
-                pagination: { 
-                    el: '.swiper-redesign .swiper-pagination', 
-                    clickable: true 
-                }
+                effect: 'coverflow', grabCursor: true, centeredSlides: true, slidesPerView: 'auto', initialSlide: 1, 
+                coverflowEffect: { rotate: 40, stretch: 0, depth: 300, modifier: 1, slideShadows: true },
+                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+                pagination: { el: '.swiper-redesign .swiper-pagination', clickable: true }
             });
 
-            // B. 手機 SNS 模擬器 (平移滑動 + 自動輪播)
             const swiperSns = new Swiper('.swiper-sns', {
-                grabCursor: true,
-                spaceBetween: 0,
-                loop: true, 
-                autoplay: {
-                    delay: 3000, 
-                    disableOnInteraction: false, 
-                },
-                pagination: {
-                    el: '.swiper-sns .swiper-pagination',
-                    clickable: true,
-                },
+                grabCursor: true, spaceBetween: 0, loop: true, 
+                autoplay: { delay: 3000, disableOnInteraction: false },
+                pagination: { el: '.swiper-sns .swiper-pagination', clickable: true },
             });
-
         });
     </script>
 </body>
