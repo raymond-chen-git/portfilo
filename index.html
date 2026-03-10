@@ -111,15 +111,31 @@
         .meta-actions { display: flex; justify-content: space-between; border-top: 1px solid #ced0d4; padding-top: 10px; color: #65676b; font-size: 0.85rem; font-weight: bold; }
         .meta-action-btn { display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
-        /* --- 2. LINE@ 推播圖文樣板 --- */
-        .line-post { background: #7490C4; width: 100%; height: 100%; display: flex; flex-direction: column; padding: 15px; padding-top: 45px; box-sizing: border-box; text-align: left; font-family: sans-serif; }
+        /* --- 2. LINE@ 推播圖文樣板 (支援上下捲動) --- */
+        .line-post { 
+            background: #7490C4; width: 100%; height: 100%; display: flex; flex-direction: column; 
+            padding: 15px; padding-top: 45px; padding-bottom: 40px; box-sizing: border-box; 
+            text-align: left; font-family: sans-serif;
+            overflow-y: auto; /* ★ 允許上下捲動 */
+            scrollbar-width: none; /* 隱藏捲軸 */
+        }
+        .line-post::-webkit-scrollbar { display: none; }
+
         .line-date { text-align: center; color: rgba(255,255,255,0.7); font-size: 0.75rem; margin-bottom: 15px; }
         .line-message-row { display: flex; align-items: flex-start; gap: 10px; }
         .line-avatar { width: 36px; height: 36px; border-radius: 50%; background: #eee; object-fit: cover; flex-shrink: 0; }
-        .line-bubble-group { display: flex; flex-direction: column; gap: 5px; max-width: 82%; }
+        .line-bubble-group { display: flex; flex-direction: column; gap: 6px; max-width: 82%; }
         .line-name { font-size: 0.75rem; color: #fff; margin-bottom: 2px; }
         
-        .line-rich-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        /* 一般純文字對話框 */
+        .line-text-bubble {
+            background: #fff; padding: 10px 14px; border-radius: 16px; border-top-left-radius: 4px;
+            font-size: 0.85rem; color: #333; width: fit-content; line-height: 1.4;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* 圖文訊息卡片 (Rich Message) */
+        .line-rich-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); width: 100%; }
         .line-rich-image { width: 100%; display: block; object-fit: cover; }
         .line-rich-text-area { padding: 12px; }
         .line-rich-title { font-weight: bold; font-size: 0.9rem; color: #111; margin-bottom: 4px; }
@@ -195,7 +211,7 @@
 
     <section id="sns-design" class="sns-section">
         <h2>社群媒體視覺企劃</h2>
-        <p>模擬真實手機瀏覽情境，左右滑動查看 Meta 粉專貼文與 LINE 推播設計：</p>
+        <p>模擬真實手機瀏覽情境，左右滑動切換貼文，<br><b>遇到 LINE 官方帳號介面時，可以在手機內上下捲動查看完整對話！</b></p>
         
         <div class="phone-mockup">
             <div class="dynamic-island"></div>
@@ -250,7 +266,6 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // --- 1. 平面作品資料庫自動生成 ---
         const projectsData = [
             { title: "旅用盥洗包說明設計", category: "排版與包裝設計", driveId: "1Tc-if0now_3eBUmt1Letbk0GoFnPX3fX" }
         ];
@@ -268,7 +283,6 @@
                 </div>`;
         });
 
-        // --- 2. 網頁頁籤切換邏輯 ---
         function openTab(evt, tabName) {
             let i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tab-content");
@@ -279,30 +293,46 @@
             evt.currentTarget.classList.add("active");
         }
 
-        // --- 3. DOM 載入後執行：自動生成社群貼文 & 初始化 Swiper ---
         document.addEventListener('DOMContentLoaded', function () {
             
-            // ★ A. 生成社群貼文資料庫 (支援 Meta 與 LINE 雙平台) ★
-            // 在這裡填寫你想展示的貼文資料，圖片請填入上傳到 GitHub 的檔名
+            // ==========================================
+            // ★ 社群貼文資料庫 (雙平台支援) ★
+            // ==========================================
             const snsData = [
+                // --- 第 1 頁：Meta (FB) 貼文 ---
                 {
-                    type: "meta", // 這是 FB 貼文
-                    avatar: "https://ui-avatars.com/api/?name=Brand&background=0D8ABC&color=fff", // 大頭貼
+                    type: "meta",
+                    avatar: "https://ui-avatars.com/api/?name=Brand&background=0D8ABC&color=fff", 
                     name: "品牌粉絲專頁名稱",
                     time: "贊助 ‧ 🌍",
                     caption: "🎉 年度最大檔優惠開跑！<br>現在購買立刻享有專屬折扣，快點擊下方圖片了解更多產品細節！✨",
-                    imgSrc: "這填入你的圖檔名.jpg", // ★★★ 換成你的社群貼文圖片檔名 ★★★
+                    imgSrc: "你的FB設計圖.jpg", // ★ 填入圖片檔名
                     likes: "1.2萬"
                 },
+                // --- 第 2 頁：LINE 官方帳號推播 (多重訊息組合) ---
                 {
-                    type: "line", // 這是 LINE 推播
+                    type: "line",
                     avatar: "https://ui-avatars.com/api/?name=LINE&background=00B900&color=fff", 
                     name: "官方帳號名稱",
                     date: "今天 10:00",
-                    title: "🎁 好友專屬優惠來囉！",
-                    desc: "出示此畫面即可至門市兌換精美小禮物一份，數量有限送完為止喔！",
-                    imgSrc: "這填入你的圖檔名.jpg", // ★★★ 換成你的圖文推播圖片檔名 ★★★
-                    btnText: "立即領取優惠"
+                    // ★ 這裡可以自由排列「純文字」與「圖文訊息」
+                    messages: [
+                        { 
+                            type: "text", 
+                            text: "早安！這是本週最新的活動資訊 👇" 
+                        },
+                        { 
+                            type: "rich", 
+                            imgSrc: "你的LINE圖文設計圖.jpg", // ★ 填入大張圖文卡片檔名
+                            title: "🎁 好友專屬優惠來囉！",
+                            desc: "出示此畫面即可至門市兌換精美小禮物一份，數量有限送完為止喔！",
+                            btnText: "立即領取優惠" 
+                        },
+                        { 
+                            type: "text", 
+                            text: "千萬別錯過囉！趕快點擊上方按鈕領取！🔥" 
+                        }
+                    ]
                 }
             ];
 
@@ -337,6 +367,25 @@
                         </div>
                     `;
                 } else if (post.type === 'line') {
+                    // ★ 動態組合 LINE 的所有對話框
+                    let messagesHtml = '';
+                    post.messages.forEach(msg => {
+                        if (msg.type === 'text') {
+                            messagesHtml += `<div class="line-text-bubble">${msg.text}</div>`;
+                        } else if (msg.type === 'rich') {
+                            messagesHtml += `
+                                <div class="line-rich-card">
+                                    <img src="${msg.imgSrc}" class="line-rich-image" alt="rich message">
+                                    <div class="line-rich-text-area">
+                                        <div class="line-rich-title">${msg.title}</div>
+                                        <div class="line-rich-desc">${msg.desc}</div>
+                                    </div>
+                                    <div class="line-action-btn">${msg.btnText}</div>
+                                </div>
+                            `;
+                        }
+                    });
+
                     generatedHtml += `
                         <div class="swiper-slide">
                             <div class="line-post">
@@ -345,14 +394,7 @@
                                     <img src="${post.avatar}" class="line-avatar" alt="avatar">
                                     <div class="line-bubble-group">
                                         <div class="line-name">${post.name}</div>
-                                        <div class="line-rich-card">
-                                            <img src="${post.imgSrc}" class="line-rich-image" alt="rich message">
-                                            <div class="line-rich-text-area">
-                                                <div class="line-rich-title">${post.title}</div>
-                                                <div class="line-rich-desc">${post.desc}</div>
-                                            </div>
-                                            <div class="line-action-btn">${post.btnText}</div>
-                                        </div>
+                                        ${messagesHtml}
                                     </div>
                                 </div>
                             </div>
@@ -360,10 +402,8 @@
                     `;
                 }
             });
-            // 寫入網頁
             snsWrapper.innerHTML = generatedHtml;
 
-            // ★ B. 初始化 Wix 3D 轉盤
             const swiperWix = new Swiper('.swiper-redesign', {
                 effect: 'coverflow', grabCursor: true, centeredSlides: true, slidesPerView: 'auto', initialSlide: 1, 
                 coverflowEffect: { rotate: 40, stretch: 0, depth: 300, modifier: 1, slideShadows: true },
@@ -371,10 +411,9 @@
                 pagination: { el: '.swiper-redesign .swiper-pagination', clickable: true }
             });
 
-            // ★ C. 初始化社群手機平移輪播 (確保在 HTML 生成後執行)
             const swiperSns = new Swiper('.swiper-sns', {
                 grabCursor: true, spaceBetween: 0, loop: true, 
-                autoplay: { delay: 4000, disableOnInteraction: false }, // 停留 4 秒讓面試官看字
+                autoplay: { delay: 5000, disableOnInteraction: false }, 
                 pagination: { el: '.swiper-sns .swiper-pagination', clickable: true },
             });
 
