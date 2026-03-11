@@ -8,15 +8,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, '微軟正黑體', sans-serif; }
-        body { background-color: #FAFAFA; color: #333; line-height: 1.6; scroll-behavior: smooth; }
+   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, '微軟正黑體', sans-serif; }
+        body { background-color: #FAFAFA; color: #333; line-height: 1.6; scroll-behavior: smooth; overflow-x: hidden; }
         
-        /* 導覽列 */
+        /* 導覽列與漢堡選單 */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 1.5rem; font-weight: bold; }
-        .nav-links { list-style: none; display: flex; gap: 20px; }
+        .logo { font-size: 1.5rem; font-weight: bold; position: relative; z-index: 101; }
+        .nav-links { list-style: none; display: flex; gap: 20px; transition: all 0.3s ease; }
         .nav-links a { text-decoration: none; color: #555; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover { color: #000; }
+        
+        .hamburger { display: none; flex-direction: column; cursor: pointer; z-index: 101; }
+        .hamburger span { width: 25px; height: 3px; background-color: #333; margin: 4px 0; transition: 0.4s; border-radius: 2px; }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links { position: fixed; top: 0; right: -100%; height: 100vh; width: 100%; background-color: rgba(255, 255, 255, 0.95); flex-direction: column; justify-content: center; align-items: center; gap: 40px; font-size: 1.5rem; backdrop-filter: blur(10px); }
+            .nav-links.active { right: 0; }
+            /* 漢堡選單動畫 */
+            .hamburger.active span:nth-child(1) { transform: rotate(-45deg) translate(-8px, 7px); }
+            .hamburger.active span:nth-child(2) { opacity: 0; }
+            .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-8px, -8px); }
+        }
         
         /* 首屏區塊 */
         .hero { text-align: center; padding: 100px 20px; background: #fff; }
@@ -39,13 +52,15 @@
         .workflow-card h3 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; }
         .workflow-card p { font-size: 0.85rem; color: #888; line-height: 1.5; margin-bottom: 0; }
 
-        /* 產品型錄與情境視覺 */
-        .portfolio-section { padding: 80px 5%; }
+        /* ★ 修正：產品型錄與情境視覺 (修正手機版破版) ★ */
+        .portfolio-section { padding: 80px 5%; overflow: hidden; }
         .portfolio-section h2 { margin-bottom: 10px; text-align: center; font-size: 2rem; }
         .portfolio-section > p { text-align: center; color: #666; margin-bottom: 40px; }
         
-        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 40px; max-width: 1200px; margin: 0 auto; }
-        .project-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.06); transition: transform 0.3s ease; }
+        .portfolio-grid { display: grid; gap: 40px; max-width: 1200px; margin: 0 auto; grid-template-columns: repeat(auto-fit, minmax(100%, 1fr)); }
+        @media (min-width: 768px) { .portfolio-grid { grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); } }
+        
+        .project-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 8px 25px rgba(0,0,0,0.06); transition: transform 0.3s ease; width: 100%; }
         .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
         .project-image { width: 100%; height: 350px; object-fit: cover; display: block; }
         .project-info { padding: 25px; }
@@ -94,43 +109,54 @@
         .swiper-sns .swiper-pagination-bullet-active { background: #000; opacity: 0.8; }
         .swiper-rich-menu .swiper-pagination-bullet-active { background: #333; }
 
-        /* --- 修正後的貼文容器：解決選取與衝突問題 --- */
-.meta-post, .line-post {
-    background: #fff;
-    width: 100%;
-    height: 100%; 
-    display: flex;
-    flex-direction: column;
-    color: #1c1e21;
-    text-align: left;
-    padding-top: 40px; /* 增加頂部間距，避開動態島 */
-    
-    /* 捲動設定 */
-    overflow-y: auto !important; 
-    overflow-x: hidden !important; 
-    -webkit-overflow-scrolling: touch; 
-    scrollbar-width: none; /* 隱裝捲動條 */
-    
-    /* 重要：禁止選取文字（防止出現藍色區塊） */
-    user-select: none; 
-    -webkit-user-select: none; 
-    -ms-user-select: none;
+        /* Meta 貼文樣板 */
+        .meta-post { background: #fff; width: 100%; height: 100%; display: flex; flex-direction: column; color: #1c1e21; text-align: left; font-family: Helvetica, Arial, sans-serif; padding-top: 30px; overflow-y: auto; scrollbar-width: none; cursor: grab; -webkit-overflow-scrolling: touch}
+        .meta-post::-webkit-scrollbar { display: none; }
+        .meta-post:active { cursor: grabbing; }
+        .meta-header { display: flex; align-items: center; padding: 12px; flex-shrink: 0; }
+        .meta-avatar { width: 40px; height: 40px; border-radius: 50%; background: #eee; margin-right: 10px; object-fit: cover; border: 1px solid #ddd; }
+        .meta-info { flex-grow: 1; }
+        .meta-name { font-weight: bold; font-size: 0.9rem; margin-bottom: 2px; }
+        .meta-time { font-size: 0.75rem; color: #65676b; display: flex; align-items: center; }
+        .meta-more { color: #65676b; font-weight: bold; letter-spacing: 2px; }
+        .meta-caption { padding: 0 12px 12px; font-size: 0.9rem; line-height: 1.5; flex-shrink: 0; }
+        .meta-caption a { color: #1877F2; text-decoration: none; }
+        
+        .meta-video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #000; flex-shrink: 0;}
+        .meta-video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-    /* 重要：明確指定垂直滑動權限 */
-    touch-action: pan-y !important; 
-    cursor: default;
-}
+        .meta-grid { width: 100%; border-top: 1px solid #eee; border-bottom: 1px solid #eee; flex-shrink: 0; display: grid; gap: 2px; background: #fff; }
+        .meta-grid img { width: 100%; height: 100%; object-fit: cover; display: block; background: #f0f2f5; }
+        .meta-grid-1 { grid-template-columns: 1fr; }
+        .meta-grid-1 img { max-height: 320px; }
+        .meta-grid-2 { grid-template-columns: 1fr 1fr; grid-auto-rows: 250px; }
+        .meta-grid-3 { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 150px; }
+        .meta-grid-3 img:nth-child(1) { grid-column: span 2; }
+        .meta-grid-4 { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
+        .meta-grid-5 { grid-template-columns: repeat(6, 1fr); grid-template-rows: 180px 120px; }
+        .meta-grid-5 .img-1, .meta-grid-5 .img-2 { grid-column: span 3; }
+        .meta-grid-5 .img-3, .meta-grid-5 .img-4, .meta-grid-5 .img-5 { grid-column: span 2; }
+        .meta-grid-more { position: relative; width: 100%; height: 100%; display: block; }
+        .meta-grid-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); color: #fff; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-weight: bold; pointer-events: none; }
 
-/* 確保捲動條在 Webkit 瀏覽器中也是隱藏的 */
-.meta-post::-webkit-scrollbar, .line-post::-webkit-scrollbar { 
-    display: none; 
-}
+        .meta-footer { padding: 10px 12px; margin-top: auto; padding-bottom: 40px; flex-shrink: 0;}
+        .meta-stats { font-size: 0.8rem; color: #65676b; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
+        .meta-actions { display: flex; justify-content: space-between; border-top: 1px solid #ced0d4; padding-top: 10px; color: #65676b; font-size: 0.85rem; font-weight: bold; }
+        .meta-action-btn { display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
-/* 確保 Swiper Slide 容器本身不被撐開 */
-.swiper-sns .swiper-slide {
-    height: 100% !important;
-    overflow: hidden !important;
-}
+        /* LINE 貼文樣板 */
+        .line-post { background: #8bacd1; width: 100%; height: 100%; display: flex; flex-direction: column; padding: 15px; padding-top: 45px; padding-bottom: 40px; box-sizing: border-box; text-align: left; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-y: auto; scrollbar-width: none; cursor: grab; -webkit-overflow-scrolling: touch}
+        .line-post::-webkit-scrollbar { display: none; }
+        .line-post:active { cursor: grabbing; }
+        .line-date { text-align: center; color: rgba(255,255,255,0.7); font-size: 0.75rem; margin-bottom: 15px; }
+        .line-message-row { display: flex; align-items: flex-start; gap: 8px; }
+        .line-avatar { width: 36px; height: 36px; border-radius: 50%; background: #eee; object-fit: cover; flex-shrink: 0; border: 1px solid #ddd; }
+        .line-bubble-group { display: flex; flex-direction: column; gap: 8px; max-width: 82%; width: 100%; }
+        .line-name { font-size: 0.75rem; color: #fff; margin-bottom: 2px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .line-image-bubble { width: 100%; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .line-image-bubble img { width: 100%; display: block; object-fit: cover; }
+        .line-text-bubble { background: #fff; padding: 12px 16px; border-radius: 18px; border-top-left-radius: 4px; font-size: 0.95rem; color: #111; width: fit-content; line-height: 1.5; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
         /* Web App 互動專案區塊 */
         .interactive-section { padding: 80px 5%; background: #EFEFEF; text-align: center; }
         .interactive-section h2 { margin-bottom: 10px; font-size: 2rem; }
@@ -151,13 +177,18 @@
 </head>
 <body>
 
-    <nav>
+<nav>
         <div class="logo">Raymond's Portfolio.</div>
-        <ul class="nav-links">
-            <li><a href="#video-showcase">影音專案</a></li>
-            <li><a href="#work">型錄與視覺</a></li>
-            <li><a href="#sns-design">社群企劃</a></li>
-            <li><a href="#interactive">Web App</a></li>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#video-showcase" class="nav-item">影音專案</a></li>
+            <li><a href="#work" class="nav-item">型錄與視覺</a></li>
+            <li><a href="#sns-design" class="nav-item">社群企劃</a></li>
+            <li><a href="#interactive" class="nav-item">Web App</a></li>
         </ul>
     </nav>
 
@@ -310,6 +341,26 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
+  // --- ★ 新增：漢堡選單開關邏輯 ★ ---
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        if(hamburger) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+        }
+
+        // 點擊導覽連結後自動收起選單
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
         // --- 1. 平面作品資料庫 ---
         const projectsData = [
             { title: "旅用盥洗包說明設計", category: "排版與包裝設計", driveId: "1Tc-if0now_3eBUmt1Letbk0GoFnPX3fX" }
@@ -378,7 +429,6 @@
                     name: "山陽產業集團｜三隆國際｜三立飯店用品",
                     time: "2小時前 · 🌎",
                     caption: "【2026浴室備品新標準】把支架變不見，讓質感再升級！<br><br>您精心挑選的浴室磁磚與牆面，不該被笨重的支架遮擋。 我們全新的解決方案，將進一步提升您的空間質感✨<br><br>🔹 極致隱形：無外露鎖點托架，視覺清爽<br>🔹 靈活安裝：黏貼/打孔皆可，附定位紙輕鬆搞定<br>🔹 客製搭配：可選配專屬壓克力成分說明背板<br><br>🎁【新春最大方．契約客戶獨享】<br>新簽約使用「三隆自有品牌洗沐產品」，不限房間數量，通通 #免費供應！<br>首批一月初到貨，數量有限，把握機會！<br><br>📞 升級專線：0800-335-666 或私訊我們",
-                    // 使用 images 陣列，系統會自動生成多圖網格。測試用：可填入 8 張路徑
                     images: [
                         "sns-posts/bottle_01.png", 
                         "sns-posts/bottle_02.png", 
@@ -395,7 +445,6 @@
                     name: "山陽產業集團｜三隆國際｜三立飯店用品",
                     time: "昨天上午 10:00 · 🌎",
                     caption: "【新品入荷｜SPA整復按摩推拿用品】<br><br>不只飯店備品，我們開始提供SPA整復按摩推拿用品囉～<br>方便的一站式採購，輕鬆解決冗長的購買決策。<br>最挺你的營業支援就找三隆國際，我們有：<br><br>🔹 星級飯店毛浴巾：厚薄款式豐富齊全，將星級的親膚觸感帶進您的店裡。<br>🔹 橄欖雪松精華系列：添加精華的按摩油與乳液，質地好推不油膩；沉穩木質調香氛，升級感官體驗。<br>🔹 自有品牌清潔劑：高CP值選擇，無論玻璃地面廁所廚房甚至洗衣一應俱全，全方位顧好您的門面。<br>🔹 客製化營支用品：將品牌客製在用品上，展現專業形象，打造亮眼的專屬風格。<br><br>我們販售的不僅是用品，更是長期的團隊支援💪<br>立即聯繫我們，或點擊下方網址瞭解更多細節：<br>🌐 官網探索： <a href='https://www.sy-hotelsupplies.com/' target='_blank'>https://www.sy-hotelsupplies.com/</a><br>📞 免付費訂購專線： 0800 335 666",
-                    // 只有一張圖時，維持陣列內僅放 1 個字串即可，系統會自動輸出單圖格式
                     images: ["sns-posts/01.png"], 
                     likes: "256"
                 },
@@ -438,14 +487,11 @@
             let generatedHtml = '';
             snsData.forEach(post => {
                 
-                // --- 渲染：一般圖片 Meta 貼文 (含多圖演算邏輯) ---
+                // --- 渲染：一般圖片 Meta 貼文 ---
                 if (post.type === 'meta') {
-                    
-                    // 判斷影像陣列，生成對應的網格 HTML
                     let imagesHtml = '';
                     if (post.images && Array.isArray(post.images) && post.images.length > 0) {
                         let len = post.images.length;
-                        // 設定破圖時的安全處理：不顯示錯誤圖示，僅顯示灰色背景
                         let errHandler = "onerror=\"this.src='data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='; this.style.backgroundColor='#f0f2f5';\"";
 
                         if (len === 1) {
@@ -534,7 +580,6 @@
                         if (msg.type === 'text') {
                             messagesHtml += `<div class="line-text-bubble">${msg.text}</div>`;
                         } else if (msg.type === 'image') {
-                            // 設定 LINE 圖片安全處理
                             let errHandler = "onerror=\"this.style.display='none';\"";
                             messagesHtml += `<div class="line-image-bubble"><img src="${msg.imgSrc}" alt="image message" ${errHandler}></div>`;
                         }
@@ -598,17 +643,12 @@
             });
 
             // 社群手機滑動配置
-const swiperSns = new Swiper('.swiper-sns', {
-    loop: true,
-    pagination: { el: '.swiper-sns .swiper-pagination', clickable: true },
-    observer: true,
-    observeParents: true,
-
-    /* --- 下面這三行是解決手勢衝突的關鍵 --- */
-    threshold: 15,                 // 滑動超過 15px 才判斷為左右切換
-    touchMoveStopPropagation: false, // 允許垂直滑動信號傳遞給內部貼文
-    touchStartPreventDefault: false, // 允許觸控起始，不阻斷原生行為
-});
+            const swiperSns = new Swiper('.swiper-sns', {
+                grabCursor: true, spaceBetween: 0, loop: true, 
+                pagination: { el: '.swiper-sns .swiper-pagination', clickable: true },
+                observer: true,       
+                observeParents: true
+            });
 
             // 圖文選單輪播配置
             const swiperRichMenu = new Swiper('.swiper-rich-menu', {
@@ -620,6 +660,7 @@ const swiperSns = new Swiper('.swiper-sns', {
             });
 
         });
+    </script>
     </script>
 </body>
 </html>
