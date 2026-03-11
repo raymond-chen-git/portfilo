@@ -95,8 +95,9 @@
         .swiper-rich-menu .swiper-pagination-bullet-active { background: #333; }
 
         /* Meta 貼文樣板 */
-        .meta-post { background: #fff; width: 100%; height: 100%; display: flex; flex-direction: column; color: #1c1e21; text-align: left; font-family: Helvetica, Arial, sans-serif; padding-top: 30px; overflow-y: auto; scrollbar-width: none;}
+        .meta-post { background: #fff; width: 100%; height: 100%; display: flex; flex-direction: column; color: #1c1e21; text-align: left; font-family: Helvetica, Arial, sans-serif; padding-top: 30px; overflow-y: auto; scrollbar-width: none; cursor: grab; -webkit-overflow-scrolling: touch}
         .meta-post::-webkit-scrollbar { display: none; }
+        .meta-post:active { cursor: grabbing; } /* 抓取時的圖示變化 */
         .meta-header { display: flex; align-items: center; padding: 12px; flex-shrink: 0; }
         .meta-avatar { width: 40px; height: 40px; border-radius: 50%; background: #eee; margin-right: 10px; object-fit: cover; border: 1px solid #ddd; }
         .meta-info { flex-grow: 1; }
@@ -105,6 +106,7 @@
         .meta-more { color: #65676b; font-weight: bold; letter-spacing: 2px; }
         .meta-caption { padding: 0 12px 12px; font-size: 0.9rem; line-height: 1.5; flex-shrink: 0; }
         .meta-caption a { color: #1877F2; text-decoration: none; }
+        
         
         /* 影片框架 (鎖定 16:9 比例) */
         .meta-video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; height: 0; background: #000; flex-shrink: 0;}
@@ -143,8 +145,9 @@
         .meta-action-btn { display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
         /* LINE 貼文樣板 */
-        .line-post { background: #8bacd1; width: 100%; height: 100%; display: flex; flex-direction: column; padding: 15px; padding-top: 45px; padding-bottom: 40px; box-sizing: border-box; text-align: left; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-y: auto; scrollbar-width: none; }
+        .line-post { background: #8bacd1; width: 100%; height: 100%; display: flex; flex-direction: column; padding: 15px; padding-top: 45px; padding-bottom: 40px; box-sizing: border-box; text-align: left; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-y: auto; scrollbar-width: none; cursor: grab; -webkit-overflow-scrolling: touch}
         .line-post::-webkit-scrollbar { display: none; }
+        .line-post:active { cursor: grabbing; }
         .line-date { text-align: center; color: rgba(255,255,255,0.7); font-size: 0.75rem; margin-bottom: 15px; }
         .line-message-row { display: flex; align-items: flex-start; gap: 8px; }
         .line-avatar { width: 36px; height: 36px; border-radius: 50%; background: #eee; object-fit: cover; flex-shrink: 0; border: 1px solid #ddd; }
