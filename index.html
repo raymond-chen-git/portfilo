@@ -407,21 +407,31 @@
             });
             if(snsWrapper) snsWrapper.innerHTML = generatedHtml;
 
-            // ★ 新增：LINE 圖文選單資料庫生成 ★
+// ★ 新增：LINE 圖文選單資料庫生成 (擴充至 14 張) ★
             const richMenuData = [
-                { driveId: "1JDv_2vY98X9nCA1kvon8u9Mil1mbz7PD", title: "經典型錄圖文選單" }
-                // 若有更多圖文選單，可於此處繼續新增：
-                // , { driveId: "你的其他檔案ID", title: "活動檔期選單" }
+                { imgSrc: "rich-menu/01.png", title: "圖文選單 1" },
+                { imgSrc: "rich-menu/02.png", title: "圖文選單 2" },
+                { imgSrc: "rich-menu/03.png", title: "圖文選單 3" },
+                { imgSrc: "rich-menu/04.png", title: "圖文選單 4" },
+                { imgSrc: "rich-menu/05.png", title: "圖文選單 5" },
+                { imgSrc: "rich-menu/06.png", title: "圖文選單 6" },
+                { imgSrc: "rich-menu/07.png", title: "圖文選單 7" },
+                { imgSrc: "rich-menu/08.png", title: "圖文選單 8" },
+                { imgSrc: "rich-menu/09.png", title: "圖文選單 9" },
+                { imgSrc: "rich-menu/10.png", title: "圖文選單 10" },
+                { imgSrc: "rich-menu/11.png", title: "圖文選單 11" },
+                { imgSrc: "rich-menu/12.png", title: "圖文選單 12" },
+                { imgSrc: "rich-menu/13.png", title: "圖文選單 13" },
+                { imgSrc: "rich-menu/14.png", title: "圖文選單 14" }
             ];
             
             const richMenuWrapper = document.getElementById('rich-menu-wrapper');
             if (richMenuWrapper) {
                 let rmHtml = '';
                 richMenuData.forEach(item => {
-                    let imgUrl = "https://drive.google.com/uc?export=view&id=" + item.driveId;
                     rmHtml += `
                         <div class="swiper-slide">
-                            <img src="${imgUrl}" alt="${item.title}" class="rich-menu-img">
+                            <img src="${item.imgSrc}" alt="${item.title}" class="rich-menu-img" onerror="this.src='https://via.placeholder.com/800x270?text=圖片路徑錯誤'">
                         </div>
                     `;
                 });
