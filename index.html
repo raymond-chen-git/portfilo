@@ -11,10 +11,11 @@
    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, '微軟正黑體', sans-serif; }
         body { background-color: #FAFAFA; color: #333; line-height: 1.6; scroll-behavior: smooth; overflow-x: hidden; }
         
-
 /* 導覽列與漢堡選單 (加入捲動隱藏的動畫屬性) */
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; transition: transform 0.3s ease-in-out; }        .logo { font-size: 1.5rem; font-weight: bold; position: relative; z-index: 101; }
-        .nav-links { list-style: none; display: flex; gap: 20px; transition: all 0.3s ease; }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 100; transition: transform 0.3s ease-in-out; }
+        /* 當加上這個 class 時，導覽列會往上收起 */
+        nav.nav-hidden { transform: translateY(-100%); }
+        .logo { font-size: 1.5rem; font-weight: bold; position: relative; z-index: 101; }        .nav-links { list-style: none; display: flex; gap: 20px; transition: all 0.3s ease; }
         .nav-links a { text-decoration: none; color: #555; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover { color: #000; }
         
@@ -353,10 +354,9 @@
         <p class="copyright">© 2026 Raymond Chen. All rights reserved.</p>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-<script>
         // --- ★ 新增：智慧導覽列 (往下捲隱藏，往上捲出現) ★ ---
         let lastScrollTop = 0;
         const navbar = document.querySelector('nav');
@@ -364,15 +364,15 @@
         window.addEventListener('scroll', function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            // 判斷：如果是往下捲動，而且捲動距離大於 50px
-            if (scrollTop > lastScrollTop && scrollTop > 50) {
-                navbar.style.transform = 'translateY(-100%)'; // 往上收起隱藏
+            if (scrollTop > lastScrollTop && scrollTop > 60) {
+                // 往下捲動：加入隱藏類別
+                navbar.classList.add('nav-hidden');
             } else {
-                navbar.style.transform = 'translateY(0)';     // 往下滑出顯示
+                // 往上捲動：移除隱藏類別
+                navbar.classList.remove('nav-hidden');
             }
             lastScrollTop = scrollTop;
         });
-
         // --- ★ 新增：漢堡選單開關邏輯 ★ ---
         const hamburger = document.getElementById('hamburger');
         const navLinks = document.getElementById('nav-links');
