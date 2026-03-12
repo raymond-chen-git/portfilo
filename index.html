@@ -87,17 +87,18 @@
         .swiper-slide-wix { width: calc(100% - 100px) !important; max-width: 1000px; height: auto; display: flex; justify-content: center; align-items: center; background-color: transparent !important; }
         @media (max-width: 768px) { .swiper-slide-wix { width: calc(100% - 40px) !important; } }
 
-        /* 2. 邊框微調，並加入底部漸層透明遮罩的魔法 */
+/* 2. 邊框微調，並加入底部漸層透明遮罩的魔法 (延後漸層開始的位置) */
         .comparison-box { 
             position: relative; width: 100%; border-radius: 16px; overflow: hidden; 
             box-shadow: 0 15px 40px rgba(0,0,0,0.15); user-select: none; -webkit-user-drag: none; transition: all 0.5s ease; 
-            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);
+            /* 讓漸層從 85% 的地方才開始變淡，保留更多清晰的網頁內容 */
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 100%);
         }
         
-        /* 3. 廢除原本的 A4 比例，改為聚焦上半部的固定高度 400px (手機版 300px) */
-        .a4-ratio-wrapper { position: relative; width: 100%; height: 400px; background-color: #f0f0f0; }
-        @media (max-width: 768px) { .a4-ratio-wrapper { height: 300px; } }
+        /* 3. 高度放大 3 倍，讓網頁內容顯示更多 (電腦版 1200px，手機版 900px) */
+        .a4-ratio-wrapper { position: relative; width: 100%; height: 1200px; background-color: #f0f0f0; }
+        @media (max-width: 768px) { .a4-ratio-wrapper { height: 900px; } }
         .comparison-img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
         .comparison-label { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.8); color: #fff; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; z-index: 10; }
         
