@@ -11,6 +11,22 @@
    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, '微軟正黑體', sans-serif; }
         body { background-color: #FAFAFA; color: #333; line-height: 1.6; scroll-behavior: smooth; overflow-x: hidden; }
         
+/* ★ 新增：用戶頭像樣式 ★ */
+        .user-avatar-container {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid #fff; /* 白色邊框 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 輕微陰影 */
+            margin-right: 15px; /* 與 logo 的間距 */
+            flex-shrink: 0; /* 確保在漢堡選單模式下不會縮小 */
+        }
+        .user-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 確保圖片填充圓形而不變形 */
+        }
 /* 導覽列與漢堡選單 (加入捲動隱藏的動畫屬性) */
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: fixed; top: 0; left: 0; width: 100%; z-index: 100; transition: transform 0.3s ease-in-out; }
         /* 當加上這個 class 時，導覽列會往上收起 */
@@ -32,10 +48,53 @@
             .hamburger.active span:nth-child(3) { transform: rotate(45deg) translate(-8px, -8px); }
         }
         
-        /* 首屏區塊 */
-        .hero { text-align: center; padding: 100px 20px; background: #fff; }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
-        .hero p { font-size: 1.2rem; color: #666; margin-bottom: 30px; }
+/* ★ 更新：Hero 首屏區塊 (含圓形頭像) ★ */
+        .hero { 
+            text-align: center; 
+            padding: 80px 20px 100px; 
+            background: #fff; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+.hero-avatar-wrapper {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px; 
+            margin-bottom: 10px; /* 將 30px 改為 10px，讓名字往頭像靠近 */
+            background: #f0f0f0;
+        }
+
+        .hero-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-avatar-wrapper:hover .hero-avatar {
+            transform: scale(1.1); /* 滑過時微幅放大 */
+        }
+
+        .hero h1 { 
+            font-size: 2.8rem; 
+            margin-bottom: 15px; 
+            letter-spacing: 1px;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .hero p { 
+            font-size: 1.25rem; 
+            color: #555; 
+            margin-bottom: 40px; 
+            max-width: 600px;
+            line-height: 1.6;
+        }
         .btn { display: inline-block; padding: 12px 24px; background: #000; color: #fff; text-decoration: none; border-radius: 30px; font-weight: bold; }
         
         /* 3D 劇院級影音展示區 */
@@ -213,6 +272,7 @@
         footer { text-align: center; padding: 60px 20px; background: #222; color: #fff; }
         footer p { color: #aaa; margin-top: 10px;}
         .copyright { font-size: 0.85rem; color: #777; margin-top: 30px !important; }
+
     </style>
 </head>
 <body>
@@ -232,9 +292,13 @@
         </ul>
     </nav>
 
-    <header class="hero">
+<header class="hero">
+        <div class="hero-avatar-wrapper">
+            <img src="images/avatar_4k.jpg" alt="Raymond Chen" class="hero-avatar">
+        </div>
+
         <h1>Raymond Chen</h1>
-        <p>專注於品牌識別與視覺包裝設計，具備 AI 輔助開發能力的跨界視覺設計師。</p>
+        <p>專注於品牌識別與視覺包裝設計，<br>具備 AI 輔助開發能力的跨界視覺設計師。</p>
         <a href="#video-showcase" class="btn">觀看最新動態原型專案</a>
     </header>
 
@@ -386,8 +450,7 @@
     </section>
 
     <footer>
-        <h2>期待與您合作！</h2>
-        <p>Email: ray@3li3long.com</p>
+        <h2>感謝您的撥冗閱讀，期盼能有與您進一步面談的機會。</h2>
         <p class="copyright">© 2026 Raymond Chen. All rights reserved.</p>
     </footer>
 
