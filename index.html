@@ -106,11 +106,15 @@
         .phone-mockup { width: 300px; height: 600px; background-color: #fff; border: 8px solid #111; border-radius: 46px; margin: 0 auto; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.1); overflow: hidden; z-index: 1; }
         .phone-mockup::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 38px; z-index: 0; pointer-events: none; }
         .dynamic-island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 85px; height: 20px; background: #000; border-radius: 20px; z-index: 50; }
-        .swiper-sns, .swiper-rich-menu { width: 100%; height: 100%; z-index: 10; }
+        
+        /* ★ 修正：將 LINE 選單與社群貼文的 Swiper 高度分開設定 ★ */
+        .swiper-sns { width: 100%; height: 100%; z-index: 10; }
+        .swiper-rich-menu { width: 100%; height: auto; z-index: 10; }
+        
         .swiper-sns .swiper-pagination-bullet-active { background: #000; opacity: 0.8; }
         .swiper-rich-menu .swiper-pagination-bullet-active { background: #333; }
         
-        /* ★ 完整復原版：Meta 貼文與多圖網格樣式 ★ */
+        /* Meta 貼文與多圖網格樣式 */
         .meta-post { background: #fff; width: 100%; height: 100%; display: flex; flex-direction: column; color: #1c1e21; text-align: left; font-family: Helvetica, Arial, sans-serif; padding-top: 30px; overflow-y: auto; scrollbar-width: none; cursor: grab; -webkit-overflow-scrolling: touch}
         .meta-post::-webkit-scrollbar { display: none; }
         .meta-post:active { cursor: grabbing; }
@@ -400,24 +404,30 @@
             for (let i = 0; i < tabLinks.length; i++) { tabLinks[i].classList.remove("active"); }
             document.getElementById(tabId).classList.add("active");
             evt.currentTarget.classList.add("active");
+            
+            // ★ 修復 LINE 選單跑版：切換頁籤後強制觸發視窗重整，讓 Swiper 重新抓取正確高度 ★
+            setTimeout(() => {
+                window.dispatchEvent(new Event('resize'));
+            }, 50);
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // --- ★ 產品型錄資料庫 (載入本地資料夾) ★ ---
+            
+            // --- ★ 產品型錄資料庫 (包含修復好的 Hunter 與桌曆路徑) ★ ---
             const projectsData = [
                 { 
                     title: "Hunter Amenities 商業型錄", 
                     category: "Editorial Design / 編輯排版", 
                     desc: "為解決過去 B2B 提案時「缺乏精品視覺」的痛點，本次改版導入嚴謹的網格系統與留白美學。將傳統型錄全面升級為國際雜誌規格，完美襯托頂級備品的品牌價值。", 
-                    coverImg: "works/work-01-cover.jpg?v=1",  // ★ 已修正：對齊你 GitHub 上的封面檔名
-                    boardImg: "works/work-01-board.png?v=1"   // ★ 已修正：對齊你 GitHub 上的 PNG 燈箱檔名
+                    coverImg: "works/work-01-cover.jpg?v=1",
+                    boardImg: "works/work-01-board.png?v=1"
                 },
                 { 
                     title: "2024 品牌客製化桌曆設計", 
                     category: "B2B Corporate Gift Design", 
-                    desc: "為打破傳統桌曆擁擠的格狀版面，以「高識別度」與「商業推廣」為核心。將日期俐落編排於兩側，釋放中央大面積視覺空間，巧妙融合 B2B 產品資訊。", 
-                    coverImg: "works/work-02-cover.png?v=1",  // ★ 指向你剛存好的 PNG 封面
-                    boardImg: "works/work-02-board.png?v=1"   // ★ 指向你剛存好的 PNG 長圖
+                    desc: "為打破傳統桌曆擁擠的格狀版面，本次設計以「高視認性」與「商業推廣」為核心。將日期俐落編排於兩側，釋放中央大面積視覺空間，巧妙融合 B2B 產品資訊。", 
+                    coverImg: "works/work-02-cover.png?v=1",
+                    boardImg: "works/work-02-board.png?v=1" 
                 },
                 { 
                     title: "質感洗沐系列視覺", 
